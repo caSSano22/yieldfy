@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yieldfy - Deterministic Yield Routing on Robinhood Chain</title>
+  <meta name="description" content="Predictable yield on tokenized stocks. Deposit AAPL, NVDA, GOOG, or USDG into an ERC-4626 vault with autonomous deterministic yield routing.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Background -->
+  <div class="glow-bg">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <img src="yieldfy-logo.png" alt="Yieldfy Logo" class="logo-img">
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#vault" class="nav-link">Vault</a>
+        <a href="#venues" class="nav-link">Venues</a>
+        <a href="#optimizer" class="nav-link">Optimizer</a>
+        <a href="#scoring" class="nav-link">Scoring</a>
+        <a href="#docs" class="nav-link" id="open-docs-btn">Docs</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-outline nav-app-btn open-app-modal">Launch App</button>
+        <button class="user-btn" aria-label="User profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <!-- 3D Canvas Visual in Background -->
+      <div class="canvas-container">
+        <canvas id="hero-canvas"></canvas>
+      </div>
+
+      <div class="hero-content">
+        <div class="badge-group">
+          <div class="badge ca-badge" id="copy-ca-btn" title="Click to copy CA">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>CA : TBA</span>
+          </div>
+          <div class="badge chain-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>YIELD ROUTING ON ROBINHOOD CHAIN</span>
+          </div>
+        </div>
+
+        <h1 class="hero-title">Predictable yield on tokenized stocks.</h1>
+
+        <p class="hero-description">
+          Deposit AAPL, NVDA, GOOG, or USDG into an ERC-4626 vault. Yieldfy scores every connected venue on the same formula and routes your capital to the best one automatically. No admin approvals.
+        </p>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-primary open-app-modal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            Launch App
+          </button>
+          <button class="btn btn-secondary" id="hero-docs-btn">Read the Docs</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Yieldfy Section -->
+    <section class="section why-section" id="vault">
+      <div class="section-header">
+        <span class="section-tag">— WHY YIELDFY</span>
+        <h2 class="section-title">A rules engine, not an AI.</h2>
+        <p class="section-subtitle">
+          Scoring is a fixed formula. Same inputs, same winner, every time. Execution runs on Chainlink Automation with no human in the loop. Every rebalance writes a signed decision to the chain, so you can audit any route after the fact.
+        </p>
+      </div>
+
+      <div class="grid grid-3">
+        <!-- Card 1 -->
+        <div class="feature-card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">ERC-4626 Vault</h3>
+          <p class="card-desc">
+            Deposit a supported asset and get vault shares back. Custody and accounting live on-chain. No hot wallet ever holds user funds.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">Deterministic Optimizer</h3>
+          <p class="card-desc">
+            Same inputs, same allocation, every cycle. No black-box model. Every decision is signed and posted on-chain so anyone can verify it.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+              <line x1="9" y1="1" x2="9" y2="4"></line>
+              <line x1="15" y1="1" x2="15" y2="4"></line>
+              <line x1="9" y1="20" x2="9" y2="23"></line>
+              <line x1="15" y1="20" x2="15" y2="23"></line>
+              <line x1="20" y1="9" x2="23" y2="9"></line>
+              <line x1="20" y1="15" x2="23" y2="15"></line>
+              <line x1="1" y1="9" x2="4" y2="9"></line>
+              <line x1="1" y1="15" x2="4" y2="15"></line>
+            </svg>
+          </div>
+          <h3 class="card-title">Autonomous Execution</h3>
+          <p class="card-desc">
+            Chainlink Automation runs a rebalance check every 6 hours. No admin clicks a button. No private key sits on a server.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <h3 class="card-title">Simple SDK</h3>
+          <p class="card-desc">
+            <code>@yieldfy/sdk</code> gives you deposit, withdraw, positions, and the last on-chain decision. Any app or bot can plug in without asking.
+          </p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="feature-card" id="venues">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="card-title">Venue Adapters</h3>
+          <p class="card-desc">
+            Morpho, Robinhood Earn, Uniswap, and Pleiades at launch. Adding a venue is one adapter plus one multisig call.
+          </p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="feature-card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3.5z"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">Circuit Breaker</h3>
+          <p class="card-desc">
+            The guardian can pull all funds back to the vault and pause routing. One direction only. Withdrawals keep working.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics Banner Section -->
+    <section class="section metrics-section">
+      <div class="metrics-card">
+        <div class="metric-item">
+          <div class="metric-value">6h</div>
+          <div class="metric-label">REBALANCE CHECK</div>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <div class="metric-value green-text">ERC–4626</div>
+          <div class="metric-label">VAULT STANDARD</div>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <div class="metric-value peach-text">~7%</div>
+          <div class="metric-label">USDG EARN BENCHMARK</div>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <div class="metric-value green-text">0</div>
+          <div class="metric-label">HOT WALLETS</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Optimizer Cycle Section -->
+    <section class="section optimizer-section" id="optimizer">
+      <div class="section-header">
+        <span class="section-tag">— OPTIMIZER CYCLE</span>
+        <h2 class="section-title">Trigger. Score. Attest. Route.</h2>
+      </div>
+
+      <div class="grid grid-4 step-grid">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <h3 class="step-title">Trigger</h3>
+          <p class="step-desc">
+            Chainlink Automation runs a keeper check every 6 hours. No cron job, no key sitting on a server.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <h3 class="step-title">Score</h3>
+          <p class="step-desc">
+            Pull live APY, TVL, and risk data from every connected venue. Hash the inputs so the result is reproducible.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <h3 class="step-title">Attest</h3>
+          <p class="step-desc">
+            Post the decision on-chain: winner, runner-up, expected extra yield in bps, and the input hash.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+          <span class="step-number">04</span>
+          <h3 class="step-title">Route</h3>
+          <p class="step-desc">
+            If the extra yield beats the rebalance threshold, move funds up to the per-venue cap. Otherwise skip and wait.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scoring Formula Section -->
+    <section class="section scoring-section" id="scoring">
+      <div class="scoring-card">
+        <div class="scoring-left">
+          <span class="section-tag">— SCORING FORMULA</span>
+          <h2 class="section-title">Five inputs. One winner.</h2>
+          <p class="scoring-desc">
+            Every venue gets scored on five numbers, weighted and added up. Highest score wins. The optimizer also estimates how much extra yield the switch is worth, so it only moves capital when the upside beats the gas and slippage. Stablecoins and stock tokens use different weightings picked at deposit.
+          </p>
+          <button class="btn btn-secondary spec-btn" id="open-spec-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            View Full Spec
+          </button>
+        </div>
+
+        <div class="scoring-right grid grid-2">
+          <!-- Input 1 -->
+          <div class="formula-item">
+            <div class="formula-header">
+              <h4 class="formula-title">Net APY</h4>
+              <span class="dot green-dot"></span>
+            </div>
+            <p class="formula-value"><strong>35%</strong> · Live yield after fees</p>
+          </div>
+
+          <!-- Input 2 -->
+          <div class="formula-item">
+            <div class="formula-header">
+              <h4 class="formula-title">Liquidity depth</h4>
+              <span class="dot green-dot"></span>
+            </div>
+            <p class="formula-value"><strong>25%</strong> · How much can move in and out</p>
+          </div>
+
+          <!-- Input 3 -->
+          <div class="formula-item">
+            <div class="formula-header">
+              <h4 class="formula-title">Protocol risk</h4>
+              <span class="dot orange-dot"></span>
+            </div>
+            <p class="formula-value"><strong>20%</strong> · Audit status and TVL</p>
+          </div>
+
+          <!-- Input 4 -->
+          <div class="formula-item">
+            <div class="formula-header">
+              <h4 class="formula-title">Correlation buffer</h4>
+              <span class="dot cyan-dot"></span>
+            </div>
+            <p class="formula-value"><strong>15%</strong> · Not everything in one place</p>
+          </div>
+
+          <!-- Input 5 -->
+          <div class="formula-item">
+            <div class="formula-header">
+              <h4 class="formula-title">Rebalance cost</h4>
+              <span class="dot green-dot"></span>
+            </div>
+            <p class="formula-value"><strong>5%</strong> · Gas plus slippage estimate</p>
+          </div>
+
+          <!-- Input 6 -->
+          <div class="formula-item">
+            <div class="formula-header">
+              <h4 class="formula-title">Equity profile</h4>
+              <span class="dot peach-dot"></span>
+            </div>
+            <p class="formula-value">Borrow demand, LP fees vs IL, volatility</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA Banner Section -->
+    <section class="section cta-section">
+      <div class="cta-card">
+        <div class="cta-text">
+          <h2 class="cta-title">Yield that runs itself.</h2>
+          <p class="cta-subtitle">
+            An ERC-4626 vault on Robinhood Chain that routes to the best venue on a fixed schedule. Same rules, same result, every time.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <button class="btn btn-primary open-app-modal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            Launch App
+          </button>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Follow X</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <a href="#" class="logo footer-logo">
+          <img src="yieldfy-logo.png" alt="Yieldfy Logo" class="logo-img">
+        </a>
+        <span class="copyright">© 2026 YIELDFY</span>
+      </div>
+      <div class="footer-right">
+        <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="footer-link">X / Twitter</a>
+        <a href="https://t.me" target="_blank" rel="noopener noreferrer" class="footer-link">Telegram</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification for CA Copy -->
+  <div class="toast" id="toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4CA183" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span>Contract address copied to clipboard!</span>
+  </div>
+
+  <!-- Interactive Vault App Simulation Modal -->
+  <div class="modal-overlay" id="app-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="close-app-modal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-badge">YIELDFY DAPP BENCHMARK</div>
+        <h2>Vault Yield Optimizer</h2>
+        <p>Deposit tokenized assets into Robinhood Chain ERC-4626 Vault</p>
+      </div>
+
+      <div class="modal-body">
+        <!-- Asset Selector -->
+        <div class="asset-selector-label">Select Asset</div>
+        <div class="asset-grid">
+          <button class="asset-btn active" data-asset="AAPL" data-apy="7.8%" data-venue="Morpho Vault">
+            <span class="asset-icon">🍎</span>
+            <div class="asset-info">
+              <span class="asset-symbol">AAPL</span>
+              <span class="asset-name">Apple Stock</span>
+            </div>
+            <span class="asset-apy">7.8% APY</span>
+          </button>
+
+          <button class="asset-btn" data-asset="NVDA" data-apy="9.4%" data-venue="Robinhood Earn">
+            <span class="asset-icon">💚</span>
+            <div class="asset-info">
+              <span class="asset-symbol">NVDA</span>
+              <span class="asset-name">Nvidia Corp</span>
+            </div>
+            <span class="asset-apy">9.4% APY</span>
+          </button>
+
+          <button class="asset-btn" data-asset="GOOG" data-apy="6.9%" data-venue="Uniswap V3">
+            <span class="asset-icon">🔍</span>
+            <div class="asset-info">
+              <span class="asset-symbol">GOOG</span>
+              <span class="asset-name">Alphabet Inc</span>
+            </div>
+            <span class="asset-apy">6.9% APY</span>
+          </button>
+
+          <button class="asset-btn" data-asset="USDG" data-apy="7.2%" data-venue="Pleiades Yield">
+            <span class="asset-icon">💵</span>
+            <div class="asset-info">
+              <span class="asset-symbol">USDG</span>
+              <span class="asset-name">USD Global</span>
+            </div>
+            <span class="asset-apy">7.2% APY</span>
+          </button>
+        </div>
+
+        <!-- Deposit Form -->
+        <div class="deposit-form">
+          <div class="form-row">
+            <label for="deposit-amount">Deposit Amount</label>
+            <span class="balance-text">Balance: 12.50 <span id="selected-symbol">AAPL</span></span>
+          </div>
+          <div class="input-group">
+            <input type="number" id="deposit-amount" placeholder="0.0" value="1.0" step="0.1">
+            <button class="max-btn" id="max-deposit-btn">MAX</button>
+          </div>
+
+          <!-- Optimization Details -->
+          <div class="route-details">
+            <div class="route-row">
+              <span>Optimal Routed Venue:</span>
+              <span class="route-val green-text" id="route-venue">Morpho Vault (Score: 94.2)</span>
+            </div>
+            <div class="route-row">
+              <span>Rebalance Check:</span>
+              <span class="route-val">Every 6 Hours (Chainlink)</span>
+            </div>
+            <div class="route-row">
+              <span>Est. Annual Return:</span>
+              <span class="route-val green-text" id="est-return">+0.078 AAPL (~$18.50)</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary modal-action-btn" id="deposit-submit-btn">Connect Wallet to Deposit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation Modal / Drawer -->
+  <div class="modal-overlay" id="docs-modal">
+    <div class="modal-card docs-card">
+      <button class="modal-close" id="close-docs-modal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-badge">DEVELOPER DOCUMENTATION</div>
+        <h2>Yieldfy Technical Specification</h2>
+        <p>ERC-4626 Deterministic Vault Routing Standard</p>
+      </div>
+      <div class="docs-body">
+        <h3>1. Smart Contract Architecture</h3>
+        <p>
+          Yieldfy employs standard <code>ERC-4626</code> tokenized vault contracts deployed on Robinhood Chain. All capital routing is triggered via Chainlink Automation keepers querying the on-chain <code>DeterministicOptimizer.sol</code> module.
+        </p>
+
+        <h3>2. SDK Quickstart</h3>
+        <div class="code-block">
+          <pre><code>// Install SDK
+npm install @yieldfy/sdk
+
+// Query top yield venue
+import { YieldfyClient } from '@yieldfy/sdk';
+
+const yieldfy = new YieldfyClient({ network: 'robinhood' });
+const decision = await yieldfy.getBestVenue('AAPL');
+
+console.log(`Routed Venue: ${decision.winnerVenue}`);
+console.log(`Attestation Hash: ${decision.inputHash}`);</code></pre>
+        </div>
+
+        <h3>3. Scoring Weightings</h3>
+        <ul>
+          <li><strong>Net APY (35%)</strong>: Realized yield net of management fees.</li>
+          <li><strong>Liquidity Depth (25%)</strong>: Instantaneous depth for withdrawal guarantee.</li>
+          <li><strong>Protocol Risk (20%)</strong>: TVL, audit score, time-in-service.</li>
+          <li><strong>Correlation Buffer (15%)</strong>: Diversity factor across collateral pools.</li>
+          <li><strong>Rebalance Cost (5%)</strong>: Estimated gas overhead & swap slippage.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
